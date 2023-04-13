@@ -202,10 +202,9 @@ public class HomePageCustomer extends javax.swing.JFrame {
         }
         for (int i = 0; i < mv.size(); i++) {
             Movie movie = mv.get(i);
-            if (movie.getTitle().equalsIgnoreCase(name)) {
+            if (movie.getTitle().toLowerCase().startsWith(name.toLowerCase())) {
                 Object[] row = new Object[]{movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
-                model.addRow(row);
-                break;
+                model.addRow(row);             
             }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
