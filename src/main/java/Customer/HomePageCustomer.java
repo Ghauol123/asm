@@ -38,12 +38,12 @@ public class HomePageCustomer extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         JTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        txtSearch = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
+        txtSearch1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,16 +72,21 @@ public class HomePageCustomer extends javax.swing.JFrame {
             }
         });
 
-        txtSearch.setText("Search Movie:");
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Search Movie:");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
         jButton3.setText("Buy Movie");
 
         jButton4.setText("Search Title");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,12 +96,12 @@ public class HomePageCustomer extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtSearch)
                     .addComponent(jButton3)
                     .addComponent(jTextField2)
                     .addComponent(jButton4)
-                    .addComponent(jTextField3))
+                    .addComponent(txtSearch1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
@@ -112,13 +117,13 @@ public class HomePageCustomer extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
-                        .addComponent(txtSearch)
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton4)
                         .addGap(12, 12, 12)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -157,7 +162,7 @@ public class HomePageCustomer extends javax.swing.JFrame {
        JTable1PropertyChange(new PropertyChangeEvent(JTable1, "tableCellEditor", null, null));
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ArrayList<Movie> mv = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) JTable1.getModel();
         model.setRowCount(0);
@@ -179,7 +184,31 @@ public class HomePageCustomer extends javax.swing.JFrame {
                 break;
             }
         }
-    }//GEN-LAST:event_txtSearchActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        ArrayList<Movie> mv = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) JTable1.getModel();
+        model.setRowCount(0);
+        String name = txtSearch1.getText();
+        try {
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            mv = (ArrayList<Movie>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < mv.size(); i++) {
+            Movie movie = mv.get(i);
+            if (movie.getTitle().equalsIgnoreCase(name)) {
+                Object[] row = new Object[]{movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
+                model.addRow(row);
+                break;
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,12 +248,12 @@ public class HomePageCustomer extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTable1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JButton txtSearch;
+    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSearch1;
     // End of variables declaration//GEN-END:variables
 }
