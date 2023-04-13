@@ -4,6 +4,7 @@
  */
 package Customer;
 
+import com.mycompany.asm.Customer;
 import com.mycompany.asm.Movie;
 import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,7 +20,6 @@ import javax.swing.table.DefaultTableModel;
  * @author PC
  */
 public class HomePageCustomer extends javax.swing.JFrame {
-
     /**
      * Creates new form HomePageCustomer
      */
@@ -80,6 +81,11 @@ public class HomePageCustomer extends javax.swing.JFrame {
         });
 
         jButton3.setText("Buy Movie");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Search Title");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +184,7 @@ public class HomePageCustomer extends javax.swing.JFrame {
         }
         for (int i = 0; i < mv.size(); i++) {
             Movie movie = mv.get(i);
-            if (movie.getName().equalsIgnoreCase(name)) {
+            if (movie.getName().trim().toLowerCase().startsWith(name.toLowerCase())) {
                 Object[] row = new Object[]{movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
                 model.addRow(row);
                 break;
@@ -202,12 +208,53 @@ public class HomePageCustomer extends javax.swing.JFrame {
         }
         for (int i = 0; i < mv.size(); i++) {
             Movie movie = mv.get(i);
-            if (movie.getTitle().toLowerCase().startsWith(name.toLowerCase())) {
+            if (movie.getTitle().trim().toLowerCase().startsWith(name.toLowerCase())) {
                 Object[] row = new Object[]{movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
                 model.addRow(row);             
             }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        ArrayList<Movie> mv = new ArrayList<>();
+        ArrayList<Customer> cus = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) JTable1.getModel();
+        model.setRowCount(0);
+        String name = txtSearch1.getText();
+        try {
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            mv = (ArrayList<Movie>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            cus = (ArrayList<Customer>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < mv.size(); i++) {
+            Movie movie = mv.get(i);
+            if (movie.getTitle().trim().toLowerCase().startsWith(name.toLowerCase())) {
+                Object[] row = new Object[]{movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
+                model.addRow(row);             
+            }
+            for(Customer cs : cus){
+                if(cs.getAge()<movie.getAge()){
+                    JOptionPane.showMessageDialog(null, "bạn chưa đủ tuổi");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "bạn có thể mua phim");
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
