@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
  * @author PC
  */
 public class CustomerAdmin extends javax.swing.JFrame {
+
     /**
      * Creates new form CustomerAdmin
      */
@@ -240,29 +241,29 @@ public class CustomerAdmin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jtable1(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtable1
-       if ("tableCellEditor".equals(evt.getPropertyName()) || "tableCellRenderer".equals(evt.getPropertyName())) {
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        if ("tableCellEditor".equals(evt.getPropertyName()) || "tableCellRenderer".equals(evt.getPropertyName())) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-    // Xóa tất cả các hàng đang có trong bảng
-    model.setRowCount(0);
+            // Xóa tất cả các hàng đang có trong bảng
+            model.setRowCount(0);
 
-    // Đọc đối tượng phim từ file và thêm vào bảng
-    try {
-        InputStream fis = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        ArrayList<Customer> cs = (ArrayList<Customer>) ois.readObject();
-        ois.close();
-        fis.close();
-        for (Customer cus : cs) {
-            Object[] row = new Object[]{cus.getName(), cus.getAge(), cus.getAccount(),cus.getPassWord()};
-            model.addRow(row);
+            // Đọc đối tượng phim từ file và thêm vào bảng
+            try {
+                InputStream fis = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                ArrayList<Customer> cs = (ArrayList<Customer>) ois.readObject();
+                ois.close();
+                fis.close();
+                for (Customer cus : cs) {
+                    Object[] row = new Object[]{cus.getName(), cus.getAge(), cus.getAccount(), cus.getPassWord()};
+                    model.addRow(row);
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-    } catch (IOException | ClassNotFoundException e) {
-        e.printStackTrace();
-    }
-}
     }//GEN-LAST:event_jtable1
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -270,107 +271,112 @@ public class CustomerAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       String username = txtUsername.getText();
-    int age = Integer.parseInt(txtAge.getText());
-    String account = txtAccount.getText();
-    String password = new String(txtPassword.getPassword());
-    Customer customer = new Customer(username, age, account, password);
-
-    // Mở hộp thoại để chọn vị trí lưu file
+        String username = txtUsername.getText();
+        int age = Integer.parseInt(txtAge.getText());
+        String account = txtAccount.getText();
+        String password = new String(txtPassword.getPassword());
+        Customer customer = new Customer(username, age, account, password);
         try {
-            // Đọc dữ liệu từ file và lưu vào một ArrayList
             ArrayList<Customer> customers = new ArrayList<>();
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             customers = (ArrayList<Customer>) in.readObject();
             in.close();
             fileIn.close();
-//
-//            // Thêm đối tượng mới vào ArrayList và ghi vào file
             customers.add(customer);
             OutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(customers);
             out.close();
             fileOut.close();
-
-            // Cập nhật lại hiển thị của JTable
-//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//            model.addRow(new Object[]{customer.getName(), customer.getAge(), customer.getAccount(),customer.getPassWord()});
-System.out.println("thêm thành công");
+            System.out.println("thêm thành công");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         String usernameToDelete = JOptionPane.showInputDialog(this, "Nhập tên đối tượng cần xóa:");
-    ArrayList<Customer> customers = new ArrayList<>();
-    try {
-        FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        customers = (ArrayList<Customer>) in.readObject();
-        in.close();
-        fileIn.close();
-    } catch (IOException | ClassNotFoundException e) {
-        e.printStackTrace();
-    }
-    for (int i = 0; i < customers.size(); i++) {
-        if (customers.get(i).getName().equals(usernameToDelete)) {
-            customers.remove(i);
-            break;
+        String usernameToDelete = JOptionPane.showInputDialog(this, "Nhập tên đối tượng cần xóa:");
+        ArrayList<Customer> customers = new ArrayList<>();
+        FileInputStream fileIn = null;
+        ObjectInputStream in = null;
+        try {
+            fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
+            if (fileIn.available() > 0) {
+                in = new ObjectInputStream(fileIn);
+                customers = (ArrayList<Customer>) in.readObject();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (fileIn != null) {
+                    fileIn.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
-    try {
-        FileOutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(customers);
-        out.close();
-        fileOut.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0);
-    for (Customer customer : customers) {
-        Object[] row = new Object[]{customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
-        model.addRow(row);
-    }
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getName().equals(usernameToDelete)) {
+                customers.remove(i);
+                break;
+            }
+        }
+
+        try {
+            FileOutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(customers);
+            out.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        for (Customer customer : customers) {
+            Object[] row = new Object[]{customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
+            model.addRow(row);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         ArrayList<Customer> customers = new ArrayList<>();
-         String username = txtUsername.getText();
-    int age = Integer.parseInt(txtAge.getText());
-    String account = txtAccount.getText();
-    String password = new String(txtPassword.getPassword());
-    Customer UpdateCustomer = new Customer(username, age, account, password);
+        String username = txtUsername.getText();
+        int age = Integer.parseInt(txtAge.getText());
+        String account = txtAccount.getText();
+        String password = new String(txtPassword.getPassword());
+        Customer UpdateCustomer = new Customer(username, age, account, password);
 
-    try {
-        FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        customers = (ArrayList<Customer>) in.readObject();
-        in.close();
-        fileIn.close();
-    } catch (IOException | ClassNotFoundException e) {
-        e.printStackTrace();
-    }
-    for (int i = 0; i < customers.size(); i++) {
-                Customer customer = customers.get(i);
-                if (customer.getName().equals(username)) {
-                    customers.set(i, UpdateCustomer);
-                    break;
-                }
+        try {
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            customers = (ArrayList<Customer>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < customers.size(); i++) {
+            Customer customer = customers.get(i);
+            if (customer.getName().equals(username)) {
+                customers.set(i, UpdateCustomer);
+                break;
             }
-    try {
-        FileOutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(customers);
-        out.close();
-        fileOut.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+        }
+        try {
+            FileOutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(customers);
+            out.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
@@ -384,25 +390,25 @@ System.out.println("thêm thành công");
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         ArrayList<Customer> customers = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0);
+        model.setRowCount(0);
         String name = txtSearch.getText();
         try {
-        FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        customers = (ArrayList<Customer>) in.readObject();
-        in.close();
-        fileIn.close();
-    } catch (IOException | ClassNotFoundException e) {
-        e.printStackTrace();
-    }
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            customers = (ArrayList<Customer>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < customers.size(); i++) {
-                Customer customer = customers.get(i);
-                if (customer.getName().equals(name)) {
-                    Object[] row = new Object[]{customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
-                    model.addRow(row);
-                    break;
-                }
+            Customer customer = customers.get(i);
+            if (customer.getName().equals(name)) {
+                Object[] row = new Object[]{customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
+                model.addRow(row);
+                break;
             }
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**

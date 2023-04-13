@@ -139,7 +139,18 @@ public class HomePageCustomer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void printFiletoArraylist(){
+        ArrayList<Movie> mv = new ArrayList<>();
+        try {
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            mv = (ArrayList<Movie>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     private void JTable1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_JTable1PropertyChange
         if ("tableCellEditor".equals(evt.getPropertyName()) || "tableCellRenderer".equals(evt.getPropertyName())) {
     DefaultTableModel model = (DefaultTableModel) JTable1.getModel();
