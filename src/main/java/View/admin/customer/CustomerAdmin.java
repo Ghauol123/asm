@@ -57,6 +57,7 @@ public class CustomerAdmin extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
+        txttext = new javax.swing.JLabel();
 
         jDialog1.setBackground(new java.awt.Color(255, 0, 102));
         jDialog1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -113,6 +114,12 @@ public class CustomerAdmin extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 153, 0));
 
         jLabel1.setText("Name");
+
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsernameActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Age");
 
@@ -212,6 +219,10 @@ public class CustomerAdmin extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
                 .addGap(30, 30, 30))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txttext, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(238, 238, 238))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +247,9 @@ public class CustomerAdmin extends javax.swing.JFrame {
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txttext, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -289,7 +302,7 @@ public class CustomerAdmin extends javax.swing.JFrame {
             out.writeObject(customers);
             out.close();
             fileOut.close();
-            System.out.println("thêm thành công");
+            txttext.setText("Nhập thành công");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -411,6 +424,10 @@ public class CustomerAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsernameActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -465,5 +482,6 @@ public class CustomerAdmin extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtUsername;
+    private javax.swing.JLabel txttext;
     // End of variables declaration//GEN-END:variables
 }

@@ -59,6 +59,7 @@ public class MovieAdmin extends javax.swing.JFrame {
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        txtDelete = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -186,14 +187,19 @@ public class MovieAdmin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3)
+                            .addComponent(jButton5)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(txtDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -203,7 +209,11 @@ public class MovieAdmin extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jButton1)
@@ -211,18 +221,21 @@ public class MovieAdmin extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addComponent(jButton4)
-                        .addGap(18, 18, 18)
+                        .addGap(14, 14, 14)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(25, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -231,9 +244,17 @@ public class MovieAdmin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jTable1PropertyChange(new PropertyChangeEvent(jTable1, "tableCellEditor", null, null));
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    // delete
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String usernameToDelete = JOptionPane.showInputDialog(this, "Nhập tên đối tượng cần xóa:");
+        String usernameToDelete = txtDelete.getText();
+        try {
+            if (usernameToDelete.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter text");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         ArrayList<Movie> mv = new ArrayList<>();
         try {
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
@@ -262,54 +283,75 @@ public class MovieAdmin extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         for (Movie movie : mv) {
-            Object[] row = new Object[]{movie.getId(),movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
+            Object[] row = new Object[]{movie.getId(), movie.getName(), movie.getTitle(), movie.getAge(), movie.getPrice()};
             model.addRow(row);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    // create
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String id = txtId.getText();
         String name = txtName.getText();
         String title = txtTitle.getText();
-        int age = Integer.parseInt(txtAge.getText());
-        float price = Float.parseFloat(txtPrice.getText());
-        Movie movie = new Movie(id,name,title,age,price);
+        int age = 0;
+        float price = 0;
+        try {
+            if (id.isEmpty() || name.isEmpty() || title.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Không để trống");
+            }
+            age = Integer.parseInt(txtAge.getText());
+            price = Float.parseFloat(txtPrice.getText());
+        } catch (NumberFormatException e) {
+            // xử lý khi người dùng nhập sai định dạng
+            JOptionPane.showMessageDialog(null, "nhập đúng định dạng cho số");
+            return;
+        }
+        Movie movie = new Movie(id, name, title, age, price);
 
         // Mở hộp thoại để chọn vị trí lưu file
         try {
-            // Đọc dữ liệu từ file và lưu vào một ArrayList
+            // lưu file vào arraylist
             ArrayList<Movie> mv = new ArrayList<>();
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             mv = (ArrayList<Movie>) in.readObject();
             in.close();
             fileIn.close();
-            //
-            //            // Thêm đối tượng mới vào ArrayList và ghi vào file
+            // lưu vào arraylisr
             mv.add(movie);
+            //lưu arraylist vào file
             OutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\a.txt");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(mv);
             out.close();
             fileOut.close();
 
-            // Cập nhật lại hiển thị của JTable
+            // cập nhật jtable
             //            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             //            model.addRow(new Object[]{customer.getName(), customer.getAge(), customer.getAccount(),customer.getPassWord()});
-            System.out.println("thêm thành công");
-        } catch (IOException  | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    // update
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         ArrayList<Movie> mv = new ArrayList<>();
-          String id = txtId.getText();
+        String id = txtId.getText();
         String name = txtName.getText();
         String title = txtTitle.getText();
-        int age = Integer.parseInt(txtAge.getText());
-        float price = Float.parseFloat(txtPrice.getText());
-        Movie UpdateMovie = new Movie(id,name,title,age,price);
+        int age = 0;
+        float price = 0;
+        try {
+            if (id.isEmpty() || name.isEmpty() || title.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Không để trống");
+            }
+            age = Integer.parseInt(txtAge.getText());
+            price = Float.parseFloat(txtPrice.getText());
+        } catch (NumberFormatException e) {
+            // xử lý khi người dùng nhập sai định dạng
+            JOptionPane.showMessageDialog(null, "nhập đúng định dạng cho số");
+            return;
+        }
+        Movie UpdateMovie = new Movie(id, name, title, age, price);
 
         try {
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
@@ -337,12 +379,16 @@ public class MovieAdmin extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    // search movie
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         ArrayList<Movie> mv = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         String name = txtSearch.getText();
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter text");
+            return;
+        }
         try {
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -352,38 +398,38 @@ public class MovieAdmin extends javax.swing.JFrame {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < mv.size(); i++) {
-            Movie movie = mv.get(i);
-            if (movie.getName().equals(name)) {
-                Object[] row = new Object[]{movie.getId(),movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
+        for (Movie movie : mv) {
+            if (movie.getName().trim().equalsIgnoreCase(name.trim())) {
+                Object[] row = new Object[]{movie.getId(), movie.getName(), movie.getTitle(), movie.getAge(), movie.getPrice()};
                 model.addRow(row);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Không có tên phim bạn cần");
                 break;
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
-
+    // read
     private void jTable1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTable1PropertyChange
-         if ("tableCellEditor".equals(evt.getPropertyName()) || "tableCellRenderer".equals(evt.getPropertyName())) {
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        if ("tableCellEditor".equals(evt.getPropertyName()) || "tableCellRenderer".equals(evt.getPropertyName())) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-    // Xóa tất cả các hàng đang có trong bảng
-    model.setRowCount(0);
-
-    // Đọc đối tượng phim từ file và thêm vào bảng
-    try {
-        InputStream fis = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        ArrayList<Movie> mv = (ArrayList<Movie>) ois.readObject();
-        ois.close();
-        fis.close();
-        for (Movie movie : mv) {
-            Object[] row = new Object[]{movie.getId(),movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
-            model.addRow(row);
+            // Xóa tất cả các hàng đang có trong bảng
+            model.setRowCount(0);
+            try {
+                InputStream fis = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                ArrayList<Movie> mv = (ArrayList<Movie>) ois.readObject();
+                ois.close();
+                fis.close();
+                for (Movie movie : mv) {
+                    Object[] row = new Object[]{movie.getId(), movie.getName(), movie.getTitle(), movie.getAge(), movie.getPrice()};
+                    model.addRow(row);
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-    } catch (IOException | ClassNotFoundException e) {
-        e.printStackTrace();
-    }
-}
     }//GEN-LAST:event_jTable1PropertyChange
 
     /**
@@ -436,6 +482,7 @@ public class MovieAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtAge;
+    private javax.swing.JTextField txtDelete;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;

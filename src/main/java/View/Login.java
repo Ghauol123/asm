@@ -15,6 +15,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -23,10 +24,12 @@ import javax.swing.JTextField;
  * @author PC
  */
 public class Login extends javax.swing.JFrame {
+
     private JLabel userLabel, passwordLabel;
     private JTextField userTextField;
     private JPasswordField passwordField;
     private JButton loginButton, resetButton;
+
     /**
      * Creates new form cinemaJframe
      */
@@ -42,6 +45,7 @@ public class Login extends javax.swing.JFrame {
         this.loginButton = loginButton;
         this.resetButton = resetButton;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -176,37 +180,41 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
-                        ArrayList<Customer> cs = new ArrayList<>();
-                                String username = txtUsername.getText();
-    String password = new String(txtPassword.getPassword());
-    HomePageAdmin hp = new HomePageAdmin();
-    HomePageCustomer hPC = new HomePageCustomer();
-        try{
-              FileInputStream fis = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
-              ObjectInputStream ois = new ObjectInputStream(fis);
-                cs = (ArrayList<Customer>) ois.readObject();
-                           ois.close();
+        ArrayList<Customer> cs = new ArrayList<>();
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
+        HomePageAdmin hp = new HomePageAdmin();
+        HomePageCustomer hPC = new HomePageCustomer();
+        try {
+            FileInputStream fis = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            cs = (ArrayList<Customer>) ois.readObject();
+            ois.close();
             fis.close();
-          }
-          catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-          }
-    // Kiểm tra tên đăng nhập và mật khẩu
-    for(Customer cus : cs){
-        if (username.equals("admin") && password.equals("admin")) {
-        dispose();
-        hp.setVisible(true);
-        // Đăng nhập thành công, mở form mới hoặc cho phép truy cập vào ứng dụng
-        // ...
-    } else if(cus.getAccount().equals(username)&&cus.getPassWord().equals(password)){
-        hPC.setVisible(true);
-        dispose();
-    }
-    else {
-        // Hiển thị thông báo lỗi
-        lblError.setText("Tên đăng nhập hoặc mật khẩu không đúng.");
-    }
-    }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        // Kiểm tra tên đăng nhập và mật khẩu
+        for (Customer cus : cs) {
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter both username and password!");
+            } else {
+                try {
+                    if (username.equals("admin") && password.equals("admin")) {
+                        dispose();
+                        hp.setVisible(true);
+                    } 
+                    else if(cus.getAccount().equals(username)&&cus.getPassWord().equals(password)){
+                        hPC.setVisible(true);
+                        dispose();
+                    }
+                    else {
+                        lblError.setText("Tên đăng nhập hoặc mật khẩu không đúng.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }}
     }//GEN-LAST:event_LoginActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
@@ -244,7 +252,7 @@ public class Login extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -264,4 +272,3 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
-
