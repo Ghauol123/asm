@@ -366,7 +366,7 @@ public class MovieAdmin extends javax.swing.JFrame {
             Movie movie = mv.get(i);
             if (movie.getName().equals(name)) {
                 mv.set(i, UpdateMovie);
-                break;
+                break;  
             }
         }
         try {

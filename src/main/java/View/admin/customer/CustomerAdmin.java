@@ -289,27 +289,6 @@ public class CustomerAdmin extends javax.swing.JFrame {
         String account = txtAccount.getText();
         String password = new String(txtPassword.getPassword());
         Customer customer = new Customer(username, age, account, password);
-        try {
-            ArrayList<Customer> customers = new ArrayList<>();
-            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            customers = (ArrayList<Customer>) in.readObject();
-            in.close();
-            fileIn.close();
-            customers.add(customer);
-            OutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(customers);
-            out.close();
-            fileOut.close();
-            txttext.setText("Nhập thành công");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String usernameToDelete = JOptionPane.showInputDialog(this, "Nhập tên đối tượng cần xóa:");
         ArrayList<Customer> customers = new ArrayList<>();
         FileInputStream fileIn = null;
         ObjectInputStream in = null;
@@ -333,6 +312,22 @@ public class CustomerAdmin extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         }
+                    customers.add(customer);
+        try {
+            OutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(customers);
+            out.close();
+            fileOut.close();
+            txttext.setText("Nhập thành công");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String usernameToDelete = JOptionPane.showInputDialog(this, "Nhập tên đối tượng cần xóa:");
+        ArrayList<Customer> customers = new ArrayList<>();
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getName().equals(usernameToDelete)) {
                 customers.remove(i);
