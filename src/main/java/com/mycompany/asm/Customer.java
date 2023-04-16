@@ -13,18 +13,27 @@ import java.util.Scanner;
  * @author PC
  */
 public class Customer implements Comparable<Customer>,Serializable{
+    private String id;
     private String name;
     private int age;
     private String account;
     private String passWord;
 
-    public Customer(String name, int age, String account, String passWord) {
+    public Customer(String id, String name, int age, String account, String passWord) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.account = account;
         this.passWord = passWord;
     }
-    
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -60,12 +69,12 @@ public class Customer implements Comparable<Customer>,Serializable{
 
     @Override
     public String toString() {
-        return "Customer{" + "name=" + name + ", age=" + age + ", account=" + account + ", passWord=" + passWord + '}';
+        return "Customer{" + "id=" + id + ", name=" + name + ", age=" + age + ", account=" + account + ", passWord=" + passWord + '}';
     }
-
+    
     @Override
     public int compareTo(Customer o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.getName().compareToIgnoreCase(o.getName());
     }
     
 }

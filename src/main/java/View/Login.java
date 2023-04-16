@@ -198,6 +198,7 @@ public class Login extends javax.swing.JFrame {
         for (Customer cus : cs) {
             if (username.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please enter both username and password!");
+                return;
             } else {
                 try {
                     if (username.equals("admin") && password.equals("admin")) {

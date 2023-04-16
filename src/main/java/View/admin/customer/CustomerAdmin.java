@@ -5,7 +5,9 @@
 package View.admin.customer;
 
 import com.mycompany.asm.Customer;
+import com.mycompany.asm.Movie;
 import java.beans.PropertyChangeEvent;
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,16 +15,20 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author PC
  */
 public class CustomerAdmin extends javax.swing.JFrame {
-
+    public Customer customer;
     /**
      * Creates new form CustomerAdmin
      */
@@ -53,11 +59,14 @@ public class CustomerAdmin extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        txtId = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         txttext = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
 
         jDialog1.setBackground(new java.awt.Color(255, 0, 102));
         jDialog1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -81,15 +90,20 @@ public class CustomerAdmin extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Name", "Age", "Name Account", "Password"
+                "Id", "Name", "Age", "Name Account", "Pasword"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jTable1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jtable1(evt);
@@ -133,24 +147,32 @@ public class CustomerAdmin extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Id Customer");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(0, 13, Short.MAX_VALUE))
+                    .addComponent(txtId))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(36, 36, 36)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
+                    .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(57, 57, 57)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
@@ -161,22 +183,19 @@ public class CustomerAdmin extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel5))
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -201,11 +220,18 @@ public class CustomerAdmin extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setText("jButton6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
@@ -213,23 +239,25 @@ public class CustomerAdmin extends javax.swing.JFrame {
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
-                .addGap(30, 30, 30))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txttext, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(238, 238, 238))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txttext, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(238, 238, 238))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
@@ -237,24 +265,26 @@ public class CustomerAdmin extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txttext, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txttext, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jButton6)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+    //table
     private void jtable1(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtable1
         if ("tableCellEditor".equals(evt.getPropertyName()) || "tableCellRenderer".equals(evt.getPropertyName())) {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -267,28 +297,44 @@ public class CustomerAdmin extends javax.swing.JFrame {
                 InputStream fis = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 ArrayList<Customer> cs = (ArrayList<Customer>) ois.readObject();
+                if (fis.available() != 0) {
+                    cs = (ArrayList<Customer>) ois.readObject();
+                }
                 ois.close();
                 fis.close();
                 for (Customer cus : cs) {
-                    Object[] row = new Object[]{cus.getName(), cus.getAge(), cus.getAccount(), cus.getPassWord()};
+                    Object[] row = new Object[]{cus.getId(), cus.getName(), cus.getAge(), cus.getAccount(), cus.getPassWord()};
                     model.addRow(row);
                 }
+            } catch (EOFException e) {
+                JOptionPane.showMessageDialog(null, "File is empty or new. Please add some data!");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
     }//GEN-LAST:event_jtable1
-
+    //read
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jtable1(new PropertyChangeEvent(jTable1, "tableCellEditor", null, null));
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    // create
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String username = txtUsername.getText();
-        int age = Integer.parseInt(txtAge.getText());
+        int age =0 ;
         String account = txtAccount.getText();
         String password = new String(txtPassword.getPassword());
-        Customer customer = new Customer(username, age, account, password);
+        String id = txtId.getText();
+         try {
+            if (username.isEmpty()||account.isEmpty()||account.isEmpty()||password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Không để trống");
+            }
+            age = Integer.parseInt(txtAge.getText());
+        } catch (NumberFormatException e) {
+            // xử lý khi người dùng nhập sai định dạng
+            JOptionPane.showMessageDialog(null, "nhập đúng định dạng cho số");
+            return;
+        }
+        Customer customer = new Customer(id, username, age, account, password);
         ArrayList<Customer> customers = new ArrayList<>();
         FileInputStream fileIn = null;
         ObjectInputStream in = null;
@@ -312,27 +358,33 @@ public class CustomerAdmin extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         }
-                    customers.add(customer);
+        customers.add(customer);
         try {
             OutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(customers);
             out.close();
             fileOut.close();
-            txttext.setText("Nhập thành công");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    // delete
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String usernameToDelete = JOptionPane.showInputDialog(this, "Nhập tên đối tượng cần xóa:");
         ArrayList<Customer> customers = new ArrayList<>();
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getName().equals(usernameToDelete)) {
-                customers.remove(i);
-                break;
-            }
+        try {
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            customers = (ArrayList<Customer>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        int selectedRowIndex = jTable1.getSelectedRow();
+        if (selectedRowIndex >= 0) {
+            customers.remove(selectedRowIndex);
         }
 
         try {
@@ -347,18 +399,29 @@ public class CustomerAdmin extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         for (Customer customer : customers) {
-            Object[] row = new Object[]{customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
+            Object[] row = new Object[]{customer.getId(), customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
             model.addRow(row);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    //update
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         ArrayList<Customer> customers = new ArrayList<>();
         String username = txtUsername.getText();
-        int age = Integer.parseInt(txtAge.getText());
+        int age = 0;
         String account = txtAccount.getText();
         String password = new String(txtPassword.getPassword());
-        Customer UpdateCustomer = new Customer(username, age, account, password);
+        String id = txtId.getText();
+                 try {
+            if (username.isEmpty()||account.isEmpty()||account.isEmpty()||password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Không để trống");
+            }
+            age = Integer.parseInt(txtAge.getText());
+        } catch (NumberFormatException e) {
+            // xử lý khi người dùng nhập sai định dạng
+            JOptionPane.showMessageDialog(null, "nhập đúng định dạng cho số");
+            return;
+        }
+        Customer UpdateCustomer = new Customer(id, username, age, account, password);
 
         try {
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
@@ -371,11 +434,18 @@ public class CustomerAdmin extends javax.swing.JFrame {
         }
         for (int i = 0; i < customers.size(); i++) {
             Customer customer = customers.get(i);
-            if (customer.getName().equals(username)) {
+            if (customer.getId().equals(id)) {
                 customers.set(i, UpdateCustomer);
                 break;
             }
         }
+                int selected = jTable1.getSelectedRow();
+        Customer selectedMovie = customers.get(selected);
+        if (!selectedMovie.getId().equals(id)) {
+            JOptionPane.showMessageDialog(null, "Không thể thay đổi ID người dùng");
+            return;
+        }
+        customers.set(selected, selectedMovie);
         try {
             FileOutputStream fileOut = new FileOutputStream("D:\\run\\htdocs\\asm\\b.txt");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -394,12 +464,13 @@ public class CustomerAdmin extends javax.swing.JFrame {
     private void jDialog1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDialog1PropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_jDialog1PropertyChange
-
+    // search
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         ArrayList<Customer> customers = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         String name = txtSearch.getText();
+        boolean found = false;
         try {
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -409,22 +480,59 @@ public class CustomerAdmin extends javax.swing.JFrame {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < customers.size(); i++) {
-            Customer customer = customers.get(i);
-            if (customer.getName().equals(name)) {
-                Object[] row = new Object[]{customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
+        for (Customer customer : customers) {
+            if (customer.getName().trim().equalsIgnoreCase(name.trim())) {
+                Object[] row = new Object[]{customer.getId(), customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
                 model.addRow(row);
-                break;
+                found = true;
             }
+        }
+        if (!found) {
+            JOptionPane.showMessageDialog(null, "Không có tên khách hàng nào phù hợp");
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsernameActionPerformed
+    // mouseclick
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int rowIndex = jTable1.getSelectedRow();
+
+        // Lấy thông tin từ hàng được chọn và đưa vào các textfield để sửa
+        if (rowIndex >= 0) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            txtId.setText(model.getValueAt(rowIndex, 0).toString());
+            txtUsername.setText(model.getValueAt(rowIndex, 1).toString());
+            txtAge.setText(model.getValueAt(rowIndex, 2).toString());
+            txtAccount.setText(model.getValueAt(rowIndex, 3).toString());
+            txtPassword.setText(model.getValueAt(rowIndex, 4).toString());
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+         ArrayList<Customer> customers = new ArrayList<>();
+        try {
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\b.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            customers = (ArrayList<Customer>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(customers);
+          DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0);
+    for (Customer customer : customers) {
+        Object[] row = new Object[]{customer.getId(), customer.getName(), customer.getAge(), customer.getAccount(), customer.getPassWord()};
+        model.addRow(row);
+    }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
-     * @param args the command line arguments
+     * @param args the command lfine arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -464,16 +572,19 @@ public class CustomerAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtAccount;
     private javax.swing.JTextField txtAge;
+    private javax.swing.JTextField txtId;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtUsername;

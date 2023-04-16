@@ -59,6 +59,11 @@ public class HomePageCustomer extends javax.swing.JFrame {
                 "Name Movie", "Title", "Age limit", "Price"
             }
         ));
+        JTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTable1MouseClicked(evt);
+            }
+        });
         JTable1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 JTable1PropertyChange(evt);
@@ -227,6 +232,7 @@ public class HomePageCustomer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
         ArrayList<Movie> mv = new ArrayList<>();
         ArrayList<Customer> cus = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) JTable1.getModel();
@@ -241,8 +247,13 @@ public class HomePageCustomer extends javax.swing.JFrame {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+          int selectedRow = JTable1.getSelectedRow();
+        Movie selectedMovie = mv.get(selectedRow);
+        int ageLimit = selectedMovie.getAge();
+        if(ageLimit)
+
         try {
-            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\a.txt");
+            FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\c.txt");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             cus = (ArrayList<Customer>) in.readObject();
             in.close();
@@ -250,22 +261,12 @@ public class HomePageCustomer extends javax.swing.JFrame {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < mv.size(); i++) {
-            Movie movie = mv.get(i);
-            if (movie.getTitle().trim().toLowerCase().startsWith(name.toLowerCase())) {
-                Object[] row = new Object[]{movie.getName(),movie.getTitle(),movie.getAge(),movie.getPrice()};
-                model.addRow(row);             
-            }
-            for(Customer cs : cus){
-                if(cs.getAge()<movie.getAge()){
-                    JOptionPane.showMessageDialog(null, "bạn chưa đủ tuổi");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "bạn có thể mua phim");
-                }
-            }
-        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void JTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTable1MouseClicked
+        // TODO add your handling code here:
+         int rowIndex = JTable1.getSelectedRow();
+    }//GEN-LAST:event_JTable1MouseClicked
 
     /**
      * @param args the command line arguments
