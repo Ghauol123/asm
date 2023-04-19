@@ -4,6 +4,8 @@
  */
 package com.mycompany.asm;
 
+import View.admin.movie.Movie;
+import View.admin.customer.Customer;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,8 +50,8 @@ public class CustomerList {
         String account = sc.nextLine();
         System.out.println("Your password:");
         String pass = sc.nextLine();
-        Customer cs = new Customer(name,age,account,pass);
-        this.cus.add(cs);
+//        Customer cs = new Customer(name,age,account,pass);
+//        this.cus.add(cs);
     }
     public void inputCustomerToFile(){
         try{

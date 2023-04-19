@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.asm;
+package View.admin.movie;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -80,6 +80,6 @@ public class Movie implements Comparable<Movie>,Serializable{
 
     @Override
     public int compareTo(Movie o) {
-        return this.Id.compareTo(o.Id);
+        return this.getName().compareToIgnoreCase(o.getName());
     }
 }

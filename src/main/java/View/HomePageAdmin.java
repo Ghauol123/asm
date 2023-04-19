@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View.admin;
+package View;
 
 import View.admin.customer.CustomerAdmin;
-import View.admin.MovieAdmin;
-import com.mycompany.asm.Customer;
-import com.mycompany.asm.Movie;
+import View.admin.movie.MovieAdmin;
+import View.admin.movie.MovieAdmin;
+import View.admin.customer.Customer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;

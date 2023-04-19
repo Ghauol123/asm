@@ -4,6 +4,7 @@
  */
 package com.mycompany.asm;
 
+import View.admin.movie.Movie;
 import java.util.Scanner;
 
 /**
@@ -13,9 +14,9 @@ import java.util.Scanner;
 public class main {
     public static void main(String[] args){
         MovieList ML = new MovieList();
-        Customer cs = new Customer("a",18,"a","abc");
+//        Customer cs = new Customer("a",18,"a","abc");
         Movie movie = new Movie("a","a","a",18,100);
-        CustomerList CSL = new CustomerList(ML,cs,movie);
+//        CustomerList CSL = new CustomerList(ML,cs,movie);
         Scanner sc = new Scanner(System.in);
         int choose = 0;
         do{
@@ -47,22 +48,22 @@ public class main {
             else if(choose == 4){
                 ML.printMovie();
             }
-            else if(choose ==5){
-                CSL.newAccount();
-                CSL.inputCustomerToFile();
-            }
-            else if(choose == 6){
-                CSL.chooseMovie();
-            }
-            else if (choose == 7){
-                CSL.printCustomer();
-            }
-            else if( choose ==8){
-                CSL.printMovieCus();
-            }
-            else if(choose == 9){
-                CSL.printCustomertoFile();
-            }
+//            else if(choose ==5){
+//                CSL.newAccount();
+//                CSL.inputCustomerToFile();
+//            }
+//            else if(choose == 6){
+//                CSL.chooseMovie();
+//            }
+//            else if (choose == 7){
+//                CSL.printCustomer();
+//            }
+//            else if( choose ==8){
+//                CSL.printMovieCus();
+//            }
+//            else if(choose == 9){
+//                CSL.printCustomertoFile();
+//            }
         }while(choose!=0);
     }
 }

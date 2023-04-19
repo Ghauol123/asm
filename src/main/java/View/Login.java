@@ -5,9 +5,8 @@
 package View;
 
 import Customer.HomePageCustomer;
-import View.admin.HomePageAdmin;
-import com.mycompany.asm.Customer;
-import com.mycompany.asm.Movie;
+import View.admin.customer.Customer;
+import View.admin.movie.Movie;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -210,7 +209,8 @@ public class Login extends javax.swing.JFrame {
                         dispose();
                     }
                     else {
-                        lblError.setText("Tên đăng nhập hoặc mật khẩu không đúng.");
+                        JOptionPane.showMessageDialog(null, "wrong username or password");
+                        return;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

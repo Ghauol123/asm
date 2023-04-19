@@ -4,8 +4,8 @@
  */
 package Customer;
 
-import com.mycompany.asm.Customer;
-import com.mycompany.asm.Movie;
+import View.admin.customer.Customer;
+import View.admin.movie.Movie;
 import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -250,7 +250,7 @@ public class HomePageCustomer extends javax.swing.JFrame {
           int selectedRow = JTable1.getSelectedRow();
         Movie selectedMovie = mv.get(selectedRow);
         int ageLimit = selectedMovie.getAge();
-        if(ageLimit)
+//        if(ageLimit)
 
         try {
             FileInputStream fileIn = new FileInputStream("D:\\run\\htdocs\\asm\\c.txt");

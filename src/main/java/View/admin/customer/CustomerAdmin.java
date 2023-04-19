@@ -4,8 +4,7 @@
  */
 package View.admin.customer;
 
-import com.mycompany.asm.Customer;
-import com.mycompany.asm.Movie;
+import View.admin.movie.Movie;
 import java.beans.PropertyChangeEvent;
 import java.io.EOFException;
 import java.io.FileInputStream;

@@ -4,6 +4,7 @@
  */
 package com.mycompany.asm;
 
+import View.admin.movie.Movie;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
